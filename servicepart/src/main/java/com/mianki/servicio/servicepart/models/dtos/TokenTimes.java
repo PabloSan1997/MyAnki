@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class TokenTimes {
     private long accesseconds;
     private long loginseconds;
-    private long socketseconds;
 }

@@ -14,7 +14,10 @@ public class AppController {
     @Autowired
     private AppService appService;
 
-
+    @GetMapping
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(appService.findOne());
+    }
 
     @GetMapping("/count")
     public ResponseEntity<?> count() {

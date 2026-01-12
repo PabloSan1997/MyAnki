@@ -13,12 +13,13 @@ import com.mianki.servicio.servicepart.repositories.UserRepository;
 import com.mianki.servicio.servicepart.service.AppService;
 import com.mianki.servicio.servicepart.service.utils.DaysCalculatorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Service
@@ -31,8 +32,7 @@ public class AppServiceImp implements AppService {
     private DaysCalculatorService daysCalculatorService;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+
 
     private UserEntity getUserAuthentication() {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -41,7 +41,11 @@ public class AppServiceImp implements AppService {
     }
 
 
-
+    @Override
+    public List<MyNotes> findOne() {
+        var user = getUserAuthentication();
+        return myNotesRepository.findByAfterNextreview(user.getUsername(), LocalDateTime.now(), PageRequest.of(0, 2));
+    }
 
     @Override
     public MyNotes update(OptionRequest optionRequest) {

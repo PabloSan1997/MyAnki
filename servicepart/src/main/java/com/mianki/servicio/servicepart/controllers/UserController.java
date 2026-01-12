@@ -66,12 +66,6 @@ public class UserController {
         return ResponseEntity.noContent().headers(headers).build();
     }
 
-    @PostMapping("/socket")
-    public ResponseEntity<?> getsocket(@CookieValue(value = "milog", required = false) String token){
-        if (token == null || token.isEmpty()) throw new RestartSeccionException();
-        TokenDto tokenDto = userService.socketToken(token);
-        return ResponseEntity.ok(tokenDto);
-    }
 
     @PostMapping("/refresh")
     public ResponseEntity<?> refresh(@CookieValue(value = "milog", required = false) String token) {

@@ -68,14 +68,14 @@ public class SecurityConfig {
 
     @Bean
     TokenTimes tokentimes() {
-        return new TokenTimes(60*60*24, 60*60*24, 60*60*24);
+        return new TokenTimes(60*7, 60*60*24);
     }
 
     @Bean
     UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(List.of("*")); // Specific origins
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowedHeaders(List.of("*")); // Or specific headers
         configuration.setAllowCredentials(true); // If sending cookies/auth
 

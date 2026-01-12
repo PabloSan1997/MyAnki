@@ -8,7 +8,7 @@ import com.mianki.servicio.servicepart.models.entities.MyNotes;
 import java.util.List;
 
 public interface AppService {
-
+    List<MyNotes> findOne();
     MyNotes update(OptionRequest optionRequest);
     MyNotes save(MyNotesDto myNotesDto);
     void resetnote(Long id);

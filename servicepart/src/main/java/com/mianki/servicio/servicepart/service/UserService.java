@@ -8,5 +8,4 @@ public interface UserService {
     DoubleTokenDto register(RegisterDto registerDto);
     void logout(String token);
     TokenDto refreshToken(String token);
-    TokenDto socketToken(String token);
 }

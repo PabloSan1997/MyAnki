@@ -37,8 +37,6 @@ public class UserServiceImp implements UserService, InitService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JwtSocketService jwtSocketService;
 
     @Override
     public DoubleTokenDto login(LoginDto loginDto) {
@@ -103,13 +101,6 @@ public class UserServiceImp implements UserService, InitService {
         return new TokenDto(jwt);
     }
 
-    @Override
-    public TokenDto socketToken(String token) {
-        LoginTokenClaims login = jwtLoginService.loginvalidation(token);
-        var claims = new WebSocketClaims(login.getUsername(), login.getIdlogin());
-        String jwt = jwtSocketService.webSocketToken(claims);
-        return new TokenDto(jwt);
-    }
 
     @Override
     public void init() {

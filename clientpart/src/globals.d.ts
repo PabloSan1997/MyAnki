@@ -25,6 +25,12 @@ interface NotesSummary {
   graduatednotes: number;
 }
 
+interface IFlashcardDto {
+  front: string;
+  back: string;
+  note: string;
+}
+
 interface IFlashcard {
   id: number;
   front: string;
