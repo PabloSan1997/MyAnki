@@ -1,6 +1,6 @@
 
 
-export  function ReviewNotes({notes}:{notes:IFlashcard[]}) {
+export  function ReviewNotes({notes}:{notes:IFlashcard}) {
   return (
     <div className="notes">
         {JSON.stringify(notes)}

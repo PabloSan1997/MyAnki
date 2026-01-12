@@ -14,11 +14,12 @@ public class AppController {
     @Autowired
     private AppService appService;
 
-    @GetMapping
-    public ResponseEntity<?> findall() {
-        return ResponseEntity.ok(appService.findAll());
-    }
 
+
+    @GetMapping("/count")
+    public ResponseEntity<?> count() {
+        return ResponseEntity.ok(appService.findNotecount());
+    }
     @PostMapping
     public ResponseEntity<?> save(@RequestBody MyNotesDto myNotesDto) {
         return ResponseEntity.status(201).body(appService.save(myNotesDto));
@@ -40,4 +41,5 @@ public class AppController {
         appService.deletenote(id);
         return ResponseEntity.noContent().build();
     }
+
 }

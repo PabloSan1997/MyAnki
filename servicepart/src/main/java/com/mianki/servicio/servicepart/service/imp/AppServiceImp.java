@@ -2,6 +2,7 @@ package com.mianki.servicio.servicepart.service.imp;
 
 import com.mianki.servicio.servicepart.exceptions.MyBadRequestException;
 import com.mianki.servicio.servicepart.exceptions.RestartSeccionException;
+import com.mianki.servicio.servicepart.models.dtos.CountNotes;
 import com.mianki.servicio.servicepart.models.dtos.MyNotesDto;
 import com.mianki.servicio.servicepart.models.dtos.OptionRequest;
 import com.mianki.servicio.servicepart.models.entities.MyNotes;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Service
 @Transactional
@@ -39,11 +40,8 @@ public class AppServiceImp implements AppService {
                 .orElseThrow(RestartSeccionException::new);
     }
 
-    @Override
-    public List<MyNotes> findAll() {
-        var user = getUserAuthentication();
-        return myNotesRepository.findByAfterNextreview(user.getUsername(), LocalDateTime.now());
-    }
+
+
 
     @Override
     public MyNotes update(OptionRequest optionRequest) {
@@ -60,8 +58,6 @@ public class AppServiceImp implements AppService {
                 .back(myNotesDto.getBack())
                 .user(user)
                 .front(myNotesDto.getFront()).build();
-        var lists = myNotesRepository.findByAfterNextreview(user.getUsername(), LocalDateTime.now());
-        simpMessagingTemplate.convertAndSendToUser(user.getUsername(), "/notes/all", lists);
         return myNotesRepository.save(newnote);
     }
 
@@ -76,8 +72,6 @@ public class AppServiceImp implements AppService {
         note.setPreviewtimegood("1 min");
         note.setNoteLevel(NoteLevel.INITIAL);
         note.setNextreview(LocalDateTime.now());
-        var lists = myNotesRepository.findByAfterNextreview(user.getUsername(), LocalDateTime.now());
-        simpMessagingTemplate.convertAndSendToUser(user.getUsername(), "/notes/all", lists);
     }
 
     @Override
@@ -86,7 +80,19 @@ public class AppServiceImp implements AppService {
         myNotesRepository.findByIdAndUsername(id, user.getUsername()).ifPresent(r -> {
             myNotesRepository.deleteById(r.getId());
         });
-        var lists = myNotesRepository.findByAfterNextreview(user.getUsername(), LocalDateTime.now());
-        simpMessagingTemplate.convertAndSendToUser(user.getUsername(), "/notes/all", lists);
     }
+
+    @Override
+    public CountNotes findNotecount() {
+        var user = getUserAuthentication();
+        var localdate = LocalDateTime.now();
+        int initialcount = myNotesRepository.countByUsernameAndNotelevel(user.getUsername(), NoteLevel.INITIAL, localdate);
+        int nextcount = myNotesRepository.countByUsernameAndNotelevel(user.getUsername(), NoteLevel.NEXT, localdate);
+        int pregraguated = myNotesRepository.countByUsernameAndNotelevel(user.getUsername(), NoteLevel.PREGRUADATED, localdate);
+        int graduatedcount = myNotesRepository.countByUsernameAndNotelevel(user.getUsername(), NoteLevel.GRADUATED, localdate);
+
+        return CountNotes.builder().newnotes(initialcount).goneovernotes(nextcount).graduatednotes(pregraguated + graduatedcount).build();
+    }
+
+
 }

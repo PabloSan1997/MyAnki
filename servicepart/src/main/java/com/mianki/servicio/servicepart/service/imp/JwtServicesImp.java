@@ -13,7 +13,6 @@ import com.mianki.servicio.servicepart.repositories.LoginRepository;
 
 import com.mianki.servicio.servicepart.service.JwtAccessService;
 import com.mianki.servicio.servicepart.service.JwtLoginService;
-import com.mianki.servicio.servicepart.service.JwtSocketService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -33,13 +32,12 @@ import java.util.List;
 
 @Service
 @Transactional
-public class JwtServicesImp implements JwtLoginService, JwtAccessService, JwtSocketService {
+public class JwtServicesImp implements JwtLoginService, JwtAccessService {
     @Value("${jwt.access.key}")
     private String accesskey;
     @Value("${jwt.login.key}")
     private String loginkey;
-    @Value("${jwt.socket.key}")
-    private String socketkey;
+
     @Autowired
     private LoginRepository loginRepository;
     @Autowired
@@ -51,7 +49,6 @@ public class JwtServicesImp implements JwtLoginService, JwtAccessService, JwtSoc
         String keyview = switch (keyname) {
             case "access" -> accesskey;
             case "login" -> loginkey;
-            case "socket" -> socketkey;
             default -> throw new RuntimeException("Invalid key name: " + keyname);
         };
 
@@ -138,27 +135,4 @@ public class JwtServicesImp implements JwtLoginService, JwtAccessService, JwtSoc
                 .compact();
     }
 
-    @Override
-    public WebSocketClaims validationSocket(String token) {
-        SecretKey secretKey = getKey("socket");
-        Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
-        String username = claims.getSubject();
-        Long idlogin = Long.parseLong(claims.getId());
-        if(loginRepository.findByUsernameAndId(username, idlogin).isEmpty())
-            throw new RefreshAccessException();
-        return new WebSocketClaims(username, idlogin);
-    }
-
-    @Override
-    public String webSocketToken(WebSocketClaims webSocketClaims) {
-        SecretKey secretKey = getKey("socket");
-        String username = webSocketClaims.getUsername();
-        Long id = webSocketClaims.getIdlogin();
-        return Jwts.builder().signWith(secretKey)
-                .subject(username)
-                .id(id.toString())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * tokenTimes.getSocketseconds()))
-                .issuedAt(new Date())
-                .compact();
-    }
 }
