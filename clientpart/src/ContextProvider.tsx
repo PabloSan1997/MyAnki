@@ -1,16 +1,16 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import React from 'react'
 import { userApi } from './api/userApi';
 
 
-const AppContext = React.createContext({jwt:''});
+const AppContext = React.createContext({ jwt: '', setJwt(_a: string) { return; } });
 
 export function ContextProvider({ children }: { children: React.ReactNode }) {
     const [jwt, setJwt] = React.useState('init');
     const { mutate } = useMutation({
         mutationFn: userApi.refresh,
         onSuccess: res => {
-            setJwt(res.jwt)
+            setJwt(res.jwt);
         },
         onError: () => {
             setJwt('');
@@ -20,7 +20,7 @@ export function ContextProvider({ children }: { children: React.ReactNode }) {
         mutate();
     }, []);
     return (
-        <AppContext.Provider value={{ jwt }}>
+        <AppContext.Provider value={{ jwt, setJwt }}>
             {children}
         </AppContext.Provider>
     )

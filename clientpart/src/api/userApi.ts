@@ -3,30 +3,40 @@ import { apiProps } from "./apiProps"
 
 
 export const userApi = {
-    async login(data:LoginDto):Promise<{jwt:string}>{
+    async login(data: LoginDto): Promise<{ jwt: string }> {
         const ft = await fetch(`${apiProps.urlbase}/user/login`, {
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            credentials:'include',
-            body:JSON.stringify(data)
+            credentials: 'include',
+            body: JSON.stringify(data)
         });
-        if(!ft.ok) {
+        if (!ft.ok) {
             const errordto = await ft.json() as ErrorDto;
             throw new Error(errordto.message)
         }
         return ft.json();
     },
-    async refresh():Promise<{jwt:string}>{
+    async refresh(): Promise<{ jwt: string }> {
         const ft = await fetch(`${apiProps.urlbase}/user/refresh`, {
-            method:'POST',
-            credentials:'include',
+            method: 'POST',
+            credentials: 'include',
         });
-        if(!ft.ok) {
+        if (!ft.ok) {
             const errordto = await ft.json() as ErrorDto;
             throw new Error(errordto.message)
         }
         return ft.json();
+    },
+    async logout() {
+
+        const ft = await fetch(`${apiProps.urlbase}/user/logout`, {
+            method: 'POST',
+            credentials: 'include'
+        });
+        if (ft.status == 401 || ft.ok)
+            return;
+        throw new Error('error to connect');
     }
 }
