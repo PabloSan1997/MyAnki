@@ -3,6 +3,7 @@ package com.mianki.servicio.servicepart.controllers;
 import com.mianki.servicio.servicepart.exceptions.RestartSeccionException;
 import com.mianki.servicio.servicepart.models.dtos.*;
 import com.mianki.servicio.servicepart.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -18,7 +19,7 @@ public class UserController {
     private TokenTimes tokenTimes;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<?> login(@Valid  @RequestBody LoginDto loginDto) {
         DoubleTokenDto doubleToken = userService.login(loginDto);
         String logintoken = doubleToken.getLoginToken();
         String accesstoken = doubleToken.getAccessToken();
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterDto registerDto) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterDto registerDto) {
         DoubleTokenDto doubleToken = userService.register(registerDto);
         String logintoken = doubleToken.getLoginToken();
         String accesstoken = doubleToken.getAccessToken();

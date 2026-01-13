@@ -4,6 +4,8 @@ import '../styles/addform.scss';
 interface IAddForm {
     setShow: (a: boolean) => void;
     save: (a: IFlashcardDto) => void;
+    message: string;
+    setMessage(a: string): void;
 }
 
 const initstate: IFlashcardDto = {
@@ -12,7 +14,7 @@ const initstate: IFlashcardDto = {
     note: ""
 }
 
-export function AddForm({ save, setShow }: IAddForm) {
+export function AddForm({ save, setShow, setMessage, message }: IAddForm) {
 
     const [data, setData] = React.useState<IFlashcardDto>(initstate);
 
@@ -46,6 +48,7 @@ export function AddForm({ save, setShow }: IAddForm) {
                 <button type="submit">Agregar</button>
                 <button type="button" onClick={() => setShow(false)}>Cancelar</button>
             </div>
+            {message.trim() && <p className="error">{message}</p>}
         </form>
     );
 }

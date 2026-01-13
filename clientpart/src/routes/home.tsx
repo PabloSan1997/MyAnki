@@ -19,6 +19,7 @@ function RouteComponent() {
   const { jwt, setJwt } = UseAppContext();
   const [show, setShow] = React.useState(false);
   const [showform, setShowform] = React.useState(false);
+  const [messageform, setMessageform] = React.useState('');
   const { data: datacount, refetch: refrescount } = useQuery({
     queryKey: ['count', jwt],
     queryFn: () => userApi.theRefresh(noteApi.countData, jwt, setJwt),
@@ -33,7 +34,7 @@ function RouteComponent() {
     initialData: [],
     enabled: !!jwt.trim() && jwt != 'init'
   });
-  const { mutate: updateData } = useMutation({
+  const { mutate: updateData, isPending: isPendingUpdate } = useMutation({
     mutationFn: (data: { jwt: string, data: OptionDto }) => userApi.theRefresh(noteApi.update, data, setJwt),
     onSuccess: () => {
       refrescount();
@@ -46,6 +47,10 @@ function RouteComponent() {
     onSuccess: () => {
       refrescount();
       refreshnote();
+      setMessageform('');
+    },
+    onError:(err)=>{
+      setMessageform(err.message);
     }
   });
   const { mutate: mutatedelete } = useMutation({
@@ -62,15 +67,15 @@ function RouteComponent() {
       <MyHeader />
       <main className="container">
         <ShowNotSumary {...datacount} />
-        <ReviewNotes
+        {!isPendingUpdate ? <ReviewNotes
           notes={datanotes}
           updateNote={(d: OptionDto) => { updateData({ jwt, data: d }); }}
           show={show}
           setShow={setShow}
           deleteById={(d: number) => mutatedelete({ id: d, jwt })}
-        />
+        />: <div className='loading'></div>}
       </main>
-      {showform && <AddForm setShow={setShowform} save={(d: IFlashcardDto) => mutatesave({ jwt, data: d })} />}
+      {showform && <AddForm message={messageform} setMessage={setMessageform} setShow={setShowform} save={(d: IFlashcardDto) => mutatesave({ jwt, data: d })} />}
       <button className='showbutton' onClick={() => setShowform(true)}>+</button>
     </>
   );

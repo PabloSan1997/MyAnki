@@ -47,6 +47,7 @@ public class UserServiceImp implements UserService, InitService {
             var auth = (UserSecurityDto) authenticationManager.authenticate(authtoken).getPrincipal();
             String accesstoken = jwtAccessService.accessToken((UserSecurityDto) auth);
             var user = userRepository.findByUsername(username).orElseThrow();
+            user.setPassword(passwordEncoder.encode(loginDto.getPassword()));
             String loginToken = jwtLoginService.loginToken(user);
             return new DoubleTokenDto(accesstoken, loginToken);
         } catch (Exception e) {

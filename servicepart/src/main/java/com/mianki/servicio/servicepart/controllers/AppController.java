@@ -3,6 +3,7 @@ package com.mianki.servicio.servicepart.controllers;
 import com.mianki.servicio.servicepart.models.dtos.MyNotesDto;
 import com.mianki.servicio.servicepart.models.dtos.OptionRequest;
 import com.mianki.servicio.servicepart.service.AppService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,12 @@ public class AppController {
         return ResponseEntity.ok(appService.findNotecount());
     }
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody MyNotesDto myNotesDto) {
+    public ResponseEntity<?> save(@Valid  @RequestBody MyNotesDto myNotesDto) {
         return ResponseEntity.status(201).body(appService.save(myNotesDto));
     }
 
     @PatchMapping
-    public ResponseEntity<?> updatebyid(@RequestBody OptionRequest optionRequest) {
+    public ResponseEntity<?> updatebyid(@Valid @RequestBody OptionRequest optionRequest) {
         return ResponseEntity.ok(appService.update(optionRequest));
     }
 
