@@ -1,0 +1,45 @@
+.login {
+  width: 85vw;
+
+  margin: 8rem auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background-color: var(--black);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    text-align: center;
+  }
+  input {
+    margin-bottom: 1rem;
+    margin-inline: auto;
+    padding: 0.3rem;
+    width: 80%;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    background-color: var(--bblack);
+    color: var(--white);
+    transition: border-color 0.3s ease;
+    &:focus {
+      outline: none;
+      border-color: var(--blue);
+    }
+  }
+
+  button {
+    padding: 0.8rem 2rem;
+    width: fit-content;
+    margin: 1rem auto 0;
+  }
+
+  .error {
+    margin-block: 1rem;
+    color: var(--red);
+    text-align: center;
+  }
+}

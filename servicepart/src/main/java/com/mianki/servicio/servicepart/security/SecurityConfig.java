@@ -57,6 +57,10 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/notes", "/api/notes/**"
                         ).hasRole("USER")
+                        .requestMatchers(
+                                "/", "/favicon.ico", "/assets", "/assets/**", "/login", "/home",
+                                "/index.html"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilter(new JwtValidationFilter(authenticationManager(), jwtAccessService))

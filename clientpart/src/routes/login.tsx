@@ -1,8 +1,9 @@
-import { userApi } from '@/api/userApi'
-import { UseAppContext } from '@/ContextProvider';
 import { useMutation } from '@tanstack/react-query'
-import { createFileRoute, Navigate } from '@tanstack/react-router'
+import { Navigate, createFileRoute } from '@tanstack/react-router'
 import React from 'react';
+import { UseAppContext } from '@/ContextProvider';
+import { userApi } from '@/api/userApi'
+import '../styles/login.scss';
 
 export const Route = createFileRoute('/login')({
     component: RouteComponent,
@@ -39,7 +40,7 @@ function RouteComponent() {
                 onChange={e => setData(d => ({ ...d, username: e.target.value }))}
             />
             <input
-                type="text"
+                type="password"
                 placeholder='Password'
                 value={data.password}
                 onChange={e => setData(d => ({ ...d, password: e.target.value }))}

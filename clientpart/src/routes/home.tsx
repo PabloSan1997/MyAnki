@@ -1,3 +1,6 @@
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Navigate, createFileRoute } from '@tanstack/react-router'
+import React from 'react';
 import { noteApi } from '@/api/noteApi';
 import { userApi } from '@/api/userApi';
 import { AddForm } from '@/components/AddForm';
@@ -5,9 +8,7 @@ import { MyHeader } from '@/components/MyHeader';
 import { ReviewNotes } from '@/components/ReviewNotes';
 import { ShowNotSumary } from '@/components/ShowNotSumary';
 import { UseAppContext } from '@/ContextProvider'
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { createFileRoute, Navigate } from '@tanstack/react-router'
-import React from 'react';
+import '../styles/home.scss';
 
 export const Route = createFileRoute('/home')({
   component: RouteComponent,
@@ -47,6 +48,13 @@ function RouteComponent() {
       refreshnote();
     }
   });
+  const { mutate: mutatedelete } = useMutation({
+    mutationFn: (data: { jwt: string, id: number }) => userApi.theRefresh(noteApi.deleteById, data, setJwt),
+    onSuccess: () => {
+      refrescount();
+      refreshnote();
+    }
+  });
   if (!jwt.trim())
     return <Navigate to='/login' />
   return (
@@ -59,10 +67,11 @@ function RouteComponent() {
           updateNote={(d: OptionDto) => { updateData({ jwt, data: d }); }}
           show={show}
           setShow={setShow}
+          deleteById={(d: number) => mutatedelete({ id: d, jwt })}
         />
       </main>
       {showform && <AddForm setShow={setShowform} save={(d: IFlashcardDto) => mutatesave({ jwt, data: d })} />}
-      <button onClick={() => setShowform(true)}>+</button>
+      <button className='showbutton' onClick={() => setShowform(true)}>+</button>
     </>
   );
 }

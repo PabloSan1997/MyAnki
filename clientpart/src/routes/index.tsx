@@ -1,7 +1,6 @@
-import { userApi } from '@/api/userApi';
+import '../styles/index.scss';
+import { Navigate, createFileRoute } from '@tanstack/react-router'
 import { UseAppContext } from '@/ContextProvider';
-import { useQuery } from '@tanstack/react-query'
-import { createFileRoute, Navigate } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
   component: App,

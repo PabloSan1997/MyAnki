@@ -2,7 +2,7 @@ import { apiProps } from "./apiProps";
 
 
 export const noteApi = {
-    async findAll(jwt: string): Promise<IFlashcard[]> {
+    async findAll(jwt: string): Promise<Array<IFlashcard>> {
         const ft = await fetch(`${apiProps.urlbase}/notes`, {
             method: 'GET',
             headers: {
@@ -61,4 +61,19 @@ export const noteApi = {
         }
         return ft.json();
     },
+    async deleteById(data:{id:number, jwt:string}):Promise<void>{
+         const ft = await fetch(`${apiProps.urlbase}/notes/${data.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${data.jwt}`
+            }
+        });
+        if (!ft.ok) {
+            const errorDto = await ft.json() as ErrorDto;
+            if (errorDto.statusCode == 401 && errorDto.message == 'refresh')
+                throw Error(errorDto.message);
+            
+        };
+        
+    }
 }

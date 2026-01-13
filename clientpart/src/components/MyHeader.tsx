@@ -1,8 +1,8 @@
 
+import { useMutation } from "@tanstack/react-query"
 import { userApi } from "@/api/userApi";
 import { UseAppContext } from "@/ContextProvider";
-import { useMutation } from "@tanstack/react-query"
-
+import '../styles/header.scss';
 
 
 export function MyHeader() {

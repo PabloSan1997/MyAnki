@@ -1,8 +1,9 @@
 import React from "react";
+import '../styles/addform.scss';
 
 interface IAddForm {
-    setShow(a: boolean): void;
-    save(a: IFlashcardDto): void;
+    setShow: (a: boolean) => void;
+    save: (a: IFlashcardDto) => void;
 }
 
 const initstate: IFlashcardDto = {

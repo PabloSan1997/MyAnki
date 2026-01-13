@@ -1,0 +1,27 @@
+header {
+    width: 100%;
+    display: flex;
+    background-color: var(--black);
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--gray);
+
+    h1 {
+        margin: auto auto auto 1rem;
+        font-size: 1.5rem;
+    }
+
+    button {
+        margin: auto 1rem auto auto;
+        padding: 0.5rem 1rem;
+        border: none;
+        background: none;
+        text-decoration: underline;
+        color: var(--blue);
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #0056b3;
+        }
+    }
+}

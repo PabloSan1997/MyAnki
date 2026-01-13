@@ -1,0 +1,77 @@
+
+.showbutton {
+    position: fixed;
+    z-index: 1;
+    right: 2rem;
+    bottom: 2rem;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 100%;
+    border: none;
+    font-size: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.addform {
+    position: fixed;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 350px;
+    background: var(--black);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+
+    h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    label {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        color: var(--gray);
+    }
+
+    input {
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+        box-sizing: border-box;
+        font-size: 1.2rem;
+        border: 1px solid var(--gray);
+        border-radius: 5px;
+        background-color: var(--bblack);
+        color: var(--white);
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            outline: none;
+            border-color: var(--blue);
+        }
+    }
+
+    .areabutton {
+        width: 80%;
+        margin: 1rem auto 0;
+        display: flex;
+        justify-content: space-around;
+
+        button {
+            padding: 0.8rem 1.5rem;
+
+            &[type="button"] {
+                background-color: var(--red);
+
+                &:hover {
+                    background-color: #b22222;
+                }
+            }
+        }
+    }
+}
