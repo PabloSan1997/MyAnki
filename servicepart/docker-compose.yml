@@ -1,0 +1,18 @@
+
+
+services:
+
+  myanki:
+    build: .
+    image: myanki
+    ports:
+      - 3005:3005
+    env_file: ./.env
+    environment:
+      - PORT=3005
+      - URL_DB=$URL_DB_ENV
+      - USERNAME=$USERNAME_ENV
+      - PASSWORD=$PASSWORD_ENV
+      - JWT_ACCESS=$JWT_ACCESS_ENV
+      - JWT_LOGIN=$JWT_LOGIN_ENV
+    restart: always
